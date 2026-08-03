@@ -1,11 +1,18 @@
 # Operon Skills
 
-Agent skills for working with Operon through the Operon CLI and live Agent
-Runtime.
+Agent skills for working with [Operon](https://github.com/hasanyilmaz/operon)
+through the [Operon CLI](https://github.com/hasanyilmaz/operon-cli) and live
+Agent Runtime.
 
 These packages teach compatible agents how to safely read and modify Operon
 tasks, use typed mutation routes, work with sealed plans, and recover from
 Runtime errors without manually editing task Markdown.
+
+## Operon Ecosystem
+
+- [Operon](https://github.com/hasanyilmaz/operon) — Task management system for humans and agents in Obsidian.
+- [Operon CLI](https://github.com/hasanyilmaz/operon-cli) — Official command-line client for the Operon Agent Runtime.
+- [operon.cc](https://operon.cc) — Product website, installation guides, and documentation.
 
 ## Requirements
 
