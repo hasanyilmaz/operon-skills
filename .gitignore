@@ -1,0 +1,5 @@
+# Local skill archive; never publish.
+/archive/
+
+# Local agent instructions; never publish.
+/AGENTS.md
