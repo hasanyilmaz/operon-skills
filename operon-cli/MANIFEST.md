@@ -1,7 +1,7 @@
 ---
 name: operon-cli
-version: "1.0.0"
-updated: "2026-08-03T17:41:43"
+version: "1.1.0"
+updated: "2026-08-04T17:44:34"
 platforms:
   - claude
   - codex
@@ -29,6 +29,8 @@ error recovery.
   [Operon Agent Runtime overview](https://operon.cc/docs/docs-118-operon-agent-runtime-overview/).
 - Installation and verification:
   [Install and verify Operon CLI](https://operon.cc/docs/docs-119-install-and-verify-operon-cli/).
+- Recommended workspace policy:
+  [Local Desktop Host And GUI IPC](../README.md#recommended-workspace-host-access-policy).
 
 ## Vault Installation Layout
 
@@ -57,3 +59,5 @@ correctly.
 All available platform packages belong to this skill family and share this
 family version. Platform-specific implementations may differ while preserving
 the same user-facing purpose.
+
+See [CHANGELOG.md](CHANGELOG.md) for version history.

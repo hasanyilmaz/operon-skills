@@ -1,7 +1,7 @@
 ---
 name: operon-tasks
-version: "1.0.0"
-updated: "2026-08-03T17:46:28"
+version: "1.1.0"
+updated: "2026-08-04T17:33:02"
 platforms:
   - claude
   - codex
@@ -28,6 +28,8 @@ and deletion through the live Runtime.
 
 - Installation and verification:
   [Install and verify Operon CLI](https://operon.cc/docs/docs-119-install-and-verify-operon-cli/).
+- Recommended workspace policy:
+  [Local Desktop Host And GUI IPC](../README.md#recommended-workspace-host-access-policy).
 
 ## Vault Installation Layout
 
@@ -56,3 +58,5 @@ correctly.
 All available platform packages belong to this skill family and share this
 family version. Platform-specific implementations may differ while preserving
 the same user-facing purpose.
+
+See [CHANGELOG.md](CHANGELOG.md) for version history.

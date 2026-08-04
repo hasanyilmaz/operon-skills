@@ -13,7 +13,14 @@ by hand.**
 
 ---
 
-## 0. Preflight (one call, always)
+## 0. Preflight and host access
+
+Live Operon commands require access to the local Obsidian desktop host. In an
+environment that separates sandboxed processes from desktop IPC, run the outer
+live command with host access. Commands known to use only local help,
+configuration, or completion data may remain sandboxed.
+
+Run once per session:
 
 ```bash
 operon health
@@ -26,7 +33,19 @@ Proceed only when `Phase: ready` and `Admission: reads yes, writes yes`.
 | `Phase: ready`, writes yes | Continue. |
 | `writes no` or phase not ready | Reads only. Report to the user; do not retry in a loop. |
 | `command not found` | The CLI is not installed. Stop and tell the user. |
-| Exit code 3 (`unavailable`) | Obsidian is closed or the vault is not open. Ask the user to open it. |
+| Exit code 3 (`unavailable`) | Classify the structured failure as described below; it does not by itself prove Obsidian is closed. |
+
+`transport-unavailable` with `obsidian-cli-host-unreachable` may indicate that
+the execution sandbox cannot reach desktop IPC. If a sandboxed read-only
+health, discovery, read, or preview command returns that failure, repeat the
+identical command once with host access. If the host-capable call succeeds,
+treat the sandbox result as an execution-environment limitation. If it also
+fails, report the failure and do not loop.
+
+Mutation-capable commands, including compact commands that may auto-apply and
+explicit plan apply or recovery commands, must use host access from their first
+invocation. Never replay an uncertain mutation or apply. Follow only the
+reported `operon plan recover <planRef>` recovery route.
 
 Vault selection is automatic (single profile `stratejya`). Never pass `--vault`
 or `--profile` unless the user names another vault.
@@ -203,7 +222,7 @@ rebuilt freely.)
 |---|---|---|
 | 0 | success | Applied, previewed, or a legitimate no-change. Continue. |
 | 2 | usage | Your syntax or a canonical key is wrong. Fix it, do not retry as is. |
-| 3 | unavailable | Obsidian closed, runtime not ready, capability missing. Report; do not loop. |
+| 3 | unavailable | Transport, desktop, Runtime, or capability unavailable. For an eligible read-only sandbox transport failure, follow §0; otherwise report and do not loop. |
 | 4 | refused | Fail-closed guard: ambiguous target, zero matches, capability gate, confirmation required, expired plan. Read the message. |
 | 5 | runtimeFailure | Runtime error, including `outcome-unknown` (recover the plan). Report the message verbatim. |
 | 70 | internal | CLI bug. Report verbatim. |
