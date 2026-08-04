@@ -192,7 +192,8 @@ Condensed by prescribed action:
 | `narrow-request` | `duplicate-operon-id`, `ambiguous-selector`, `payload-too-large`, `result-too-large`, `projection-too-broad` | Too broad or ambiguous. Tighten the selector, limit, or projection. |
 | `refresh-state` | `entity-not-found`, `stale-source`, `stale-context`, `stale-cursor`, `stale-plan`, `plan-expired` | Live state moved on. Re-read, then rebuild the request or preview. |
 | `request-consent` | `confirmation-required`, `acknowledgement-required` | A human decision is required. Surface it; never synthesize consent. |
-| `wait-and-retry` (**the only retryable codes**) | `receipt-store-unavailable`, `transport-unavailable`, `live-settling` | Wait briefly, retry the same call once or twice. |
+| `wait-and-retry` | `receipt-store-unavailable`, `live-settling` | Wait briefly and follow the response's retry guidance. |
+| `wait-and-retry` | `transport-unavailable` | For an eligible read-only sandbox call, repeat the identical call once with host access. Never replay an uncertain mutation or apply. |
 | `recover-same-plan` | `outcome-unknown` | `operon plan recover <planRef>`. Nothing else. |
 | `rediscover` | `unknown-capability`, `capability-unavailable` | Re-read `operon capabilities`; the surface changed. |
 | `fix-environment` | `unsupported-platform`, `vault-mismatch`, `audit-unavailable`, `desktop-unavailable`, `handler-unavailable` | Environment problem. Report to the user. |
@@ -200,8 +201,11 @@ Condensed by prescribed action:
 | `do-not-retry` | `plan-tampered`, `consent-denied` | Stop entirely. |
 | `report-bug` | `internal-error` | Exit 70. Report verbatim. |
 
-Every code not listed under `wait-and-retry` has `retryable: false`. Retrying
-them unchanged is always wrong.
+These are the only three registry codes marked retryable. That flag does not
+override mutation uncertainty: mutation-capable commands use host access from
+their first invocation, and an uncertain mutation or apply is never replayed.
+Every code not listed under `wait-and-retry` has `retryable: false`; retrying it
+unchanged is always wrong.
 
 ---
 
