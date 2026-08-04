@@ -26,16 +26,35 @@ Resolve real values with section 2 before you run anything.
 
 ---
 
-## 0. Preflight
+## 0. Preflight and host access
 
-One call, once per session.
+Live Operon commands require access to the local Obsidian desktop host. Run the
+outer command with host access, including any `op-*.sh` wrapper whose child
+process communicates with Operon Runtime.
+
+Run once per session:
 
 ```bash
 operon health
 ```
 
-Must show `Phase: ready` and `Admission: reads yes, writes yes`. Exit 3 means
-Obsidian is closed or the vault is not open: say so, do not loop.
+Proceed only with `Phase: ready` and `Admission: reads yes, writes yes`.
+
+Exit 3 does not by itself prove that Obsidian or the vault is unavailable.
+`transport-unavailable` with `obsidian-cli-host-unreachable` may indicate that
+the execution sandbox cannot reach desktop IPC.
+
+If a sandboxed read-only health, catalog, finder, query, or preview command
+returns that transport failure, repeat the identical command once with host
+access. If the host-capable call succeeds, treat the sandbox result as an
+execution-environment limitation, not as a Runtime failure. If it also fails,
+report the failure and do not loop.
+
+Mutation-capable commands, including `op-do.sh`, must use host access from their
+first invocation. Never replay an uncertain mutation or apply. Follow only the
+reported `operon plan recover <planRef>` recovery route.
+
+Never hand-edit task Markdown as a transport workaround.
 
 ---
 
