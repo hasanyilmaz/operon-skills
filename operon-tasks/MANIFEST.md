@@ -28,6 +28,8 @@ and deletion through the live Runtime.
 
 - Installation and verification:
   [Install and verify Operon CLI](https://operon.cc/docs/docs-119-install-and-verify-operon-cli/).
+- Recommended workspace policy:
+  [Local Desktop Host And GUI IPC](../README.md#recommended-workspace-host-access-policy).
 
 ## Vault Installation Layout
 

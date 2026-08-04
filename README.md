@@ -87,6 +87,58 @@ place `.claude/` or `.codex/` inside `.obsidian/`.
 Run the agent with the vault root as its working directory so relative paths
 resolve correctly.
 
+## Recommended Workspace Host Access Policy
+
+Operon communicates with the running Obsidian desktop application through local
+host IPC. In sandboxed agent environments, Obsidian and Operon Runtime may be
+healthy even when a command cannot reach them.
+
+The Operon skills include their own product-specific connection and recovery
+rules, so this workspace-level policy is not a required dependency. Adding it
+helps Codex or Claude choose the correct execution context before the first live
+command and also benefits other skills that communicate with desktop
+applications.
+
+Add the following section to the vault-root `AGENTS.md` for Codex or
+`CLAUDE.md` for Claude. If both agents are used, add it to both files. Merge the
+section into an existing file; do not replace unrelated instructions.
+
+```md
+### Local Desktop Host And GUI IPC
+
+Commands that communicate with a running desktop application through host
+process discovery or OS-level IPC must run in a host-capable execution context.
+This includes Unix sockets and application bridges on macOS/Linux, named pipes
+and equivalent bridges on Windows, and wrapper scripts whose child process
+performs the communication.
+
+Grant host access to the outermost live command, including its wrapper. Keep
+file-only, offline, configuration, schema, help, and cache-only operations
+sandboxed when they do not require the running application.
+
+For read-only operations:
+
+- Run known live-desktop commands with host access from the start.
+- A sandboxed command that returns a clear host-reachability or IPC-isolation
+  error may be repeated once, unchanged, with host access.
+- Treat a successful host retry as an execution-environment limitation. Diagnose
+  the application, vault, plugin, or Runtime only if the host check also fails.
+- Do not loop or repeatedly retry an unavailable transport.
+
+For state-changing operations:
+
+- Use host access from the first invocation; never use a sandbox mutation as a
+  connectivity probe.
+- Do not replay a command after an uncertain transport, timeout, or apply result.
+  Follow the owning skill's recovery procedure.
+- Host access does not authorize changes outside the user's request.
+
+Use the narrowest permission for the required CLI or wrapper. Do not grant broad
+host access to a shell or interpreter. Do not restart, reload, install,
+reconfigure, or otherwise modify the host application solely because IPC is
+unavailable without user authorization.
+```
+
 ## Verify The Runtime
 
 With Obsidian running and the target vault open:

@@ -29,6 +29,8 @@ error recovery.
   [Operon Agent Runtime overview](https://operon.cc/docs/docs-118-operon-agent-runtime-overview/).
 - Installation and verification:
   [Install and verify Operon CLI](https://operon.cc/docs/docs-119-install-and-verify-operon-cli/).
+- Recommended workspace policy:
+  [Local Desktop Host And GUI IPC](../README.md#recommended-workspace-host-access-policy).
 
 ## Vault Installation Layout
 
